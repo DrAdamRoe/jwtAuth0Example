@@ -1,0 +1,19 @@
+{
+  "name": "jwtauth0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/r3dDoX/jwtAuth0Example.git"
+  },
+  "author": "Patrick Walther",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/r3dDoX/jwtAuth0Example/issues"
+  },
+  "homepage": "https://github.com/r3dDoX/jwtAuth0Example#readme"
+}
