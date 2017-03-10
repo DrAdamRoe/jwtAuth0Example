@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack && node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,20 @@
   "bugs": {
     "url": "https://github.com/r3dDoX/jwtAuth0Example/issues"
   },
-  "homepage": "https://github.com/r3dDoX/jwtAuth0Example#readme"
+  "homepage": "https://github.com/r3dDoX/jwtAuth0Example#readme",
+  "devDependencies": {
+    "auth0-lock": "10.12.3",
+    "babel-core": "6.23.1",
+    "babel-loader": "6.4.0",
+    "babel-preset-env": "1.2.1",
+    "babel-preset-react": "6.23.0",
+    "jwt-decode": "2.1.0",
+    "react": "15.4.2",
+    "react-dom": "15.4.2",
+    "webpack": "2.2.1"
+  },
+  "dependencies": {
+    "express": "4.15.2",
+    "express-jwt": "5.1.0"
+  }
 }
