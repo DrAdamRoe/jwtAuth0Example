@@ -1,8 +1,17 @@
 # Example Application for authentication with Auth0 and JWT
 Start with a free account with a client on [Auth0](https://auth0.com). 
+Create an application here, and add a user. 
 
-Run a find & replace on this directory to replace ClientID, Domain, and Secret with the values from your newly created Auth0 app . 
+Locally, you will have to create a `.env` file. It should contain three entires from your Auth0 application:
 
-Install it with **npm install**
+```
+SERVER_SECRET=MY_SECRET
+CLIENT_ID=MY_CLIENT_ID
+APP_DOMAIN=MY_APP_DOMAIN
+```
 
-Afterwards run **npm start** and hit [localhost:3000](http://localhost:3000).
+The Express server will get the environment variables directly from the process via `dotenv`, while webpack will replace placeholders for the domain and id on build. 
+
+Install: **npm install**
+
+Run **npm start** and hit [localhost:8080](http://localhost:8080).
