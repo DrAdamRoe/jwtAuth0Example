@@ -4,20 +4,22 @@ import AuthService from './authService';
 
 export default class AuthExample extends React.Component {
 
-  componentWillMount() {
-    this.setState({
+  constructor(props){
+    super(props);
+    this.state = {
       loggedIn: false,
-      serverAuth: undefined,
-    });
+      serverAuth: false,
+    };
+
     this.authService = AuthService.create(() => {
-      this.setState({ loggedIn: true });
-      this.requestProtectedResource();
+      this.state = { loggedIn: true, };
     });
-    if (this.authService.loggedIn()) {
-      this.setState({ loggedIn: true });
-    }
-    this.requestProtectedResource();
+
+    this.requestProtectedResource = this.requestProtectedResource.bind(this);
+    this.DisplayText = this.DisplayText.bind(this);
+
   }
+
 
   logout() {
     this.authService.logout();
@@ -40,14 +42,30 @@ export default class AuthExample extends React.Component {
       })
   }
 
+  DisplayText(){
+    if (this.state.serverAuth && this.state.loggedIn ){
+      return <div className="server-auth server-auth__success"> Server accepted your token! </div>
+    }
+    else if (!this.state.serverAuth  && this.state.loggedIn){
+      return <div className="server-auth server-auth__failure"> Server rejected your token! </div>
+    }else{
+      return <div className="server-auth"> login, then check validity. </div>
+    }
+  }
+
   render() {
     return (
       <div className="content">
         {!this.state.loggedIn &&
         <button className="action-button" onClick={() => this.authService.login()}>
-          Login
+          Login via Auth0
         </button>
         }
+
+        <button className="action-button" onClick={() => this.requestProtectedResource()}>
+          Check Token validity against local server
+        </button>
+        
 
         {this.state.loggedIn &&
         <div>
@@ -57,19 +75,10 @@ export default class AuthExample extends React.Component {
           {JSON.stringify(jwtDecode(this.authService.getToken()), null, 4)}
           </pre>
         </div>
-        }
+        }    
+        
+      < this.DisplayText />
 
-        {this.state.serverAuth &&
-        <div className="server-auth server-auth__success">
-          Server accepted your token!
-        </div>
-        }
-
-        {this.state.serverAuth === false &&
-        <div className="server-auth server-auth__failure">
-          Server rejected your token!
-        </div>
-        }
       </div>
     );
   }

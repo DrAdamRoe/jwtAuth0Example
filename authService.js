@@ -19,52 +19,58 @@ const Prototype = {
   },
   loggedIn() {
     const token = this.getToken();
+    console.log("getting token")
+    console.log(token)
+    // if (token) {
+    //   if (!tokenIsExpired(token)) {
+    //     return true;
+    //   }
 
-    if (token) {
-      if (!tokenIsExpired(token)) {
-        return true;
-      }
+    //   this.logout();
+    // }
 
-      this.logout();
-    }
-
-    return false;
+    // return false;
+    return true;
   },
+  
   logout() {
-    localStorage.removeItem('id_token');
+    localStorage.removeItem('accessToken');
   },
-  setToken(idToken) {
-    // save token in local storage
-    localStorage.setItem('id_token', idToken)
-  },
-  getToken() {
-    return localStorage.getItem('id_token');
-  },
+  
 };
 
 export default {
   create(onLoggedIn) {
     const obj = Object.create(Prototype);
 
-    // replace ClientId and Domain with you auth0 params
-    obj.lock = new Auth0Lock('ClientId', 'Domain', {
+    var options = {
       auth: {
-        redirectUrl: 'http://localhost:3000',
+        redirectUrl: 'http://localhost:8080',
         responseType: 'token',
-        params: {
-          // with this param we can control what will get included in the payload of the returned JWT
-          scope: 'openid email app_metadata',
-        },
+        autoclose: true,
+        closable: true,
+        avatar: null,
+        rememberLastLogin: false,       
       },
-    });
+    };
+
+    obj.lock = new Auth0Lock(process.env.CLIENT_ID, process.env.APP_DOMAIN, options);
 
     // Add callback for lock `authenticated` event
     obj.lock.on('authenticated', (authResult) => {
-      obj.setToken(authResult.idToken);
-      onLoggedIn(obj);
-    });
+      obj.lock.getUserInfo(authResult.accessToken, function(error, profile) {
+        if (error) {
+          console.log("error in lock")
+          return;
+        }
+    
+        localStorage.setItem("accessToken", authResult.accessToken);
+        localStorage.setItem("profile", JSON.stringify(profile));
+        console.log(authResult.accessToken)
 
-    return obj;
-  },
+        onLoggedIn(obj);
+      });
+    });  
+    return obj;    
+  }
 };
-

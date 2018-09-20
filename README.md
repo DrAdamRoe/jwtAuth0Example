@@ -1,8 +1,8 @@
 # Example Application for authentication with Auth0 and JWT
-To run it, you need a free account with a client on [Auth0](https://auth0.com).
+Start with a free account with a client on [Auth0](https://auth0.com). 
 
-Add the **ClientId** and the **Domain** of the Auth0 client in [authService.js](authService.js).
+Run a find & replace on this directory to replace ClientID, Domain, and Secret with the values from your newly created Auth0 app . 
 
-Add the **ClientId** and the **Secret** of your Auth0 client in [index.js](index.js)
+Install it with **npm install**
 
 Afterwards run **npm start** and hit [localhost:3000](http://localhost:3000).

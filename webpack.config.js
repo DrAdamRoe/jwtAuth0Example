@@ -1,31 +1,40 @@
-module.exports = {
-  entry: './app.jsx',
+const webpack = require('webpack');
+const dotenv = require('dotenv');
+dotenv.config()
 
-  output: {
-    path: './',
-    filename: 'bundle.js',
-  },
+module.exports = env => {
+  
+  console.log('Auth0 Application domain: APP_DOMAIN: ', process.env.APP_DOMAIN); // 'APP_DOMAIN'
 
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          presets: [
-            'babel-preset-react',
-            [
-              'env',
-              {
-                'targets': {
-                  'browsers': ['last 2 versions'],
-                },
-              },
-            ],
-          ],
-        },
-      },
+  return{
+    entry: './app.jsx',
+
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env': {
+          'APP_DOMAIN': JSON.stringify(process.env.APP_DOMAIN),
+          'CLIENT_ID': JSON.stringify(process.env.CLIENT_ID),
+        }
+      })
     ],
-  },
+
+    mode: 'development',
+    
+    output: {
+      path: __dirname,
+      filename: 'bundle.js',
+    },
+
+      module: {
+        rules: [
+          {
+            test: /\.(js|jsx)$/,
+            exclude: /node_modules/,
+            use: {
+              loader: 'babel-loader'
+            }          
+          }
+        ]
+      }
+    }
 };
