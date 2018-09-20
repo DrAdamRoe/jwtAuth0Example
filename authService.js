@@ -36,6 +36,10 @@ const Prototype = {
   logout() {
     localStorage.removeItem('accessToken');
   },
+
+  getToken() {
+    return localStorage.getItem('accessToken');
+  },
   
 };
 
